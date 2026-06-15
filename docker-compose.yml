@@ -1,0 +1,41 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: django_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: todo_db
+      POSTGRES_USER: todo
+      POSTGRES_PASSWORD: pa13rsa82
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    network_mode: host
+
+  web:
+    build: .
+    container_name: django_app
+    restart: unless-stopped
+
+    command: >
+      sh -c "
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+
+    volumes:
+      - .:/app
+
+    network_mode: host
+    env_file:
+      - .env
+
+    depends_on:
+      - db
+
+
+volumes:
+  postgres_data:
