@@ -92,7 +92,10 @@ Example:
 ```env
 DEBUG=True
 SECRET_KEY=change_me
-DB_PASSWORD=your_password
+DB_PASSWORD=db_password
+DB_NAME=db_name
+DB_USER=db_user
+DB_HOST=host
 ```
 
 ## Apply Migrations
